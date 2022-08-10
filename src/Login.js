@@ -1,6 +1,8 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function App() {
+    const nevigate = useNavigate()
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 
@@ -19,11 +21,12 @@ function App() {
 		})
 
 		const data = await response.json()
-
-		if (data.user) {
-			localStorage.setItem('token', data.user)
+		console.log(data)
+		if (data.u) {
+			localStorage.setItem('token', data.u)
 			alert('Login successful')
-			window.location.href = '/dashboard'
+            nevigate('/')
+			//window.location.href = '/dashboard'
 		} else {
 			alert('Please check your username and password')
 		}
