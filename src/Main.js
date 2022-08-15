@@ -6,6 +6,9 @@ import './App.css'
 import{Navbar,Footer,SideBar} from './components'
 import{Calendar,Client,Dashboard,Resevation,Pie,Bar,Hairstylist} from './pages'
 import{useStateContext} from './contexts/ContextProvider'
+import CreateClient from './pages/CreateClient'
+import CreateResevation from './pages/CreateResevation'
+
 
 const Main=()=>{
     const {activeMenu}=useStateContext();
@@ -50,7 +53,8 @@ const Main=()=>{
 					<Route path='/client' element={<Client/>}/>
 					<Route path='/reservation' element={<Resevation/>}/>
 					<Route path='/hairstylist' element={<Hairstylist/>}/>
-                    
+                    <Route path='/create-client' element={<CreateClient/>}/>
+                    <Route path='/create-reservation' element={<CreateResevation/>}/>
 
 					{/*Apps*/}
 					<Route path='/calendar' element={<Calendar/>}/>
