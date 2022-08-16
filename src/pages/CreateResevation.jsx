@@ -51,19 +51,14 @@ const CreateResevation = () => {
         nevigate('/reservation')
     }
 
-    const checkAppoinments=()=>{
-        for (let i = 0; i < hairS.length; i++) {
-            if(hairS[i]===hairStylish && Rdate[i]===resDate && Rtime[i]===resTimeStart ){
-                //setCount(count + 1);
-                ct++;
-                       
-            }else{}
-          }
-    }
-
-    
-
     const handleSubmit=(e)=>{
+      for (let i = 0; i < hairS.length; i++) {
+        
+        if(hairS[i]===hairStylish && Rdate[i]===resDate && Rtime[i]===resTimeStart){
+          setError(true);
+          return;
+        }
+      }
     
       if(ct>MAX_APPOINMENTS){
             setError(true);
@@ -81,7 +76,7 @@ const CreateResevation = () => {
         <div className="w-full max-w-xs">
         {error && <ErrorMessage>Maximum appointments has exceeded</ErrorMessage>}
         <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" 
-            onSubmit={(e)=>{checkAppoinments();handleSubmit()}}>
+            onSubmit={(e)=>{handleSubmit()}}>
           
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="hairStylish">
@@ -137,7 +132,7 @@ const CreateResevation = () => {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
               id="resTimeStart" 
               type="text" 
-              onChange={(e) => {setResTimeStart(e.target.value);checkAppoinments()}}
+              onChange={(e) => {setResTimeStart(e.target.value)}}
               placeholder="resTimeStart"/>
           </div>
 
@@ -149,7 +144,7 @@ const CreateResevation = () => {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
               id="resTimeEnd" 
               type="text" 
-              onChange={(e) => setResTimeEnd(e.target.value)}
+              onChange={(e) => {setResTimeEnd(e.target.value)}}
               placeholder="resTimeEnd"/>
           
           </div>
