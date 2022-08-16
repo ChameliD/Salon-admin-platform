@@ -3,7 +3,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import ErrorMessage from '../components/ErrorMessage';
 const baseUrl="http://localhost:3001/api";
-const MAX_APPOINMENTS=2;
+
+const MAX_APPOINMENTS=8;
 
 
 
