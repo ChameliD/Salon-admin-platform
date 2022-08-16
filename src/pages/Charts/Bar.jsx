@@ -6,11 +6,15 @@ import { barPrimaryXAxis, barPrimaryYAxis} from '../../components'
 
 const Bar = () => {
   const { currentMode } = useStateContext();
-
+  const [Mcount, setMCount] = useState(0);
+  const [Acount, setACount] = useState(0);
+  const [Rcount, setRCount] = useState(0);
   const [tableData, setTableData] = useState([])
+  
   let maicalCount=0;
   let alanCount =0;
   let rebeccaCount=0;
+  let today = new Date().toISOString().slice(0, 10)
 
   useEffect(() => {
     fetch(`http://localhost:3001/api/reservation/all`)
@@ -25,23 +29,28 @@ const Bar = () => {
   
   useEffect(() => {
     for (let i = 0; i < hairS.length; i++) {
-        if(hairS[i]==="Maical"){
-            maicalCount++;           
-        }else if(hairS[i]==="Alan") {
+        if(hairS[i]==="Maical" && Rdate[i]===today){
+            maicalCount++; 
+                     
+        }else if(hairS[i]==="Alan" && Rdate[i]===today) {
             alanCount++;
-        }else if(hairS[i]==="Rebecca"){
+        }else if(hairS[i]==="Rebecca"&& Rdate[i]===today){
             rebeccaCount++;
         }
+        
     } 
+    setMCount(maicalCount)
+    setACount(alanCount)
+    setRCount(rebeccaCount)
   }  
   )
 
   const barChartData = [
     
     [
-      { x: 'Maical', y: maicalCount },
-      { x: 'Alan', y: alanCount },
-      { x: 'Rebecca', y: rebeccaCount },
+      { x: 'Maical', y: Mcount },
+      { x: 'Alan', y: Acount },
+      { x: 'Rebecca', y: Rcount },
     ],
     
   ];
@@ -83,7 +92,7 @@ const Bar = () => {
             {barCustomSeries.map((item, index) => <SeriesDirective key={index} {...item} />)}
           </SeriesCollectionDirective>
         </ChartComponent>
-      </div>
+      </div><button onClick={(e)=>{console.log(maicalCount)}}>click me</button>
     </div>
   );
 };

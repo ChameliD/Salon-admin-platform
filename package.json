@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emailjs/browser": "^3.6.2",
     "@syncfusion/ej2": "^19.4.48",
     "@syncfusion/ej2-material-theme": "^20.2.43",
     "@syncfusion/ej2-react-buttons": "^20.2.43",

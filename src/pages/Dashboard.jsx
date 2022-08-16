@@ -1,6 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
+  const nevigate=useNavigate()
+  const RedirectTO=()=>{
+    nevigate('/sendMail')
+  }
   return (
     <div className="mt-12">
       <div className="flex flex-wrap lg:flex-nowrap justify-center ">
@@ -13,16 +18,21 @@ const Dashboard = () => {
               <p className="font-semibold text-xl">Welcome to the Dashboard</p>  
             </div>
         </div>
-        <div className="flex gap-10 flex-wrap justify-center">    
-            <div className="flex justify-between">
-              <button 
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
-                type="submit" >
-                  Invite to an admin
-              </button>
-            
-            </div>
+
+          <div className="flex gap-10 flex-wrap justify-center">    
+              <div className="flex justify-between">
+                <button 
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  onClick={RedirectTO}>
+                    Invite to an admin
+                </button>
+              
+              </div>
           </div>
+
+          
+
+
         </div> 
       </div>
     </div>

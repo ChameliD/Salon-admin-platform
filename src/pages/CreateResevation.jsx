@@ -16,9 +16,8 @@ const CreateResevation = () => {
     const [resTimeStart, setResTimeStart] = useState('');
     const [resTimeEnd, setResTimeEnd] = useState('');
     const [status, setstatus] = useState('');
-    const [count, setCount] = useState(0);
+    
     const[error,setError]=useState(false);
-    let ct=0;
     let maicalHr=0; 
     let alanHr=0; 
     let rebeccaHr=0;

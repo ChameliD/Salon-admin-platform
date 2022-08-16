@@ -8,6 +8,7 @@ import{Calendar,Client,Dashboard,Resevation,Pie,Bar,Hairstylist} from './pages'
 import{useStateContext} from './contexts/ContextProvider'
 import CreateClient from './pages/CreateClient'
 import CreateResevation from './pages/CreateResevation'
+import SendEmail from './components/SentMail'
 
 
 const Main=()=>{
@@ -58,6 +59,7 @@ const Main=()=>{
 
 					{/*Apps*/}
 					<Route path='/calendar' element={<Calendar/>}/>
+                    <Route path='/sendMail' element={<SendEmail/>}/>
 
 					{/*Charts*/}
 					<Route path='/pie' element={<Pie/>}/>
