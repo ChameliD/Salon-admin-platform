@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import ErrorMessage from '../components/ErrorMessage';
 const baseUrl="http://localhost:3001/api";
-const MAX_APPOINMENTS=8;
+const MAX_APPOINMENTS=2;
 
 
 
@@ -19,6 +19,9 @@ const CreateResevation = () => {
     const [count, setCount] = useState(0);
     const[error,setError]=useState(false);
     let ct=0;
+    let maicalHr=0; 
+    let alanHr=0; 
+    let rebeccaHr=0;
 
 
     const [tableData, setTableData] = useState([])
@@ -54,13 +57,25 @@ const CreateResevation = () => {
     const handleSubmit=(e)=>{
       for (let i = 0; i < hairS.length; i++) {
         
-        if(hairS[i]===hairStylish && Rdate[i]===resDate && Rtime[i]===resTimeStart){
-          setError(true);
-          return;
+        if(hairS[i]===hairStylish && Rdate[i]===resDate){
+          if( Rtime[i]===resTimeStart){
+            setError(true);
+            return;
+          }
+          else if (hairS[i]==="Maical"){
+            maicalHr++
+            console.log(maicalHr)
+          }
+          else if(hairS[i]==="Alan"){
+            alanHr++
+          }
+          else if(hairS[i]==="Rebecca"){
+            rebeccaHr++
+          }
         }
       }
-    
-      if(ct>MAX_APPOINMENTS){
+
+      if(maicalHr>MAX_APPOINMENTS||alanHr>MAX_APPOINMENTS||rebeccaHr>MAX_APPOINMENTS){
             setError(true);
             return;
         }
@@ -74,7 +89,8 @@ const CreateResevation = () => {
     return(
       <div><div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
         <div className="w-full max-w-xs">
-        {error && <ErrorMessage>Maximum appointments has exceeded</ErrorMessage>}
+        {error && <ErrorMessage>Maximum appointments has exceeded or the Time slot for the stylish 
+          has already booked</ErrorMessage>}
         <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" 
             onSubmit={(e)=>{handleSubmit()}}>
           
