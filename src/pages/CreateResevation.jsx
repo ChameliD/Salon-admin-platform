@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import ErrorMessage from '../components/ErrorMessage';
+const baseUrl="http://localhost:3001/api";
+const MAX_APPOINMENTS=8;
 
-const baseUrl="http://localhost:3001/api"
 
 
 const CreateResevation = () => {
@@ -13,39 +15,94 @@ const CreateResevation = () => {
     const [resDate, setResDate] = useState('');
     const [resTimeStart, setResTimeStart] = useState('');
     const [resTimeEnd, setResTimeEnd] = useState('');
-   
+    const [status, setstatus] = useState('');
+    const [count, setCount] = useState(0);
+    const[error,setError]=useState(false);
+    let ct=0;
+
+
+    const [tableData, setTableData] = useState([])
+
+    useEffect(() => {
+      fetch(`http://localhost:3001/api/reservation/all`)
+        .then((data) => data.json())
+        .then((data) => setTableData(data))
+  
+    }, [])
+
+    const hairS = tableData.map(a => a.hairStylish);
+    const Rdate = tableData.map(b => b.resDate);
+    const Rtime = tableData.map(c => c.resTimeStart);
+    
+    
+
     const postData = (e) => {
-        
-        
         axios.post(`http://localhost:3001/api/reservation`, {
             hairStylish,
             client,
             resDate,
             resTimeStart,
             resTimeEnd,
+            status,
         })
     }
 
-    const redirectCrete=()=>{
-      nevigate('/reservation')
+    const redirectCrete=(e)=>{
+        nevigate('/reservation')
     }
+
+    const checkAppoinments=()=>{
+        for (let i = 0; i < hairS.length; i++) {
+            if(hairS[i]===hairStylish && Rdate[i]===resDate && Rtime[i]===resTimeStart ){
+                //setCount(count + 1);
+                ct++;
+                       
+            }else{}
+          }
+    }
+
+    
+
+    const handleSubmit=(e)=>{
+    
+      if(ct>MAX_APPOINMENTS){
+            setError(true);
+            return;
+        }
+      else{   
+        setError(false);
+            postData();
+            redirectCrete();
+          }
+      }
 
     return(
       <div><div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
         <div className="w-full max-w-xs">
-            <br/><br/><br/>
-        <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={(e)=>{postData(e); redirectCrete(e)}}>
+        {error && <ErrorMessage>Maximum appointments has exceeded</ErrorMessage>}
+        <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" 
+            onSubmit={(e)=>{checkAppoinments();handleSubmit()}}>
           
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="hairStylish">
               Haire Stylish
             </label>
-            <input 
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-              id="hairStylish" 
-              type="text" 
-              onChange={(e) => setHairStylish(e.target.value)}
-              placeholder="hairStylish"/>
+            
+            <div> 
+ 
+                <select 
+                  className="shadow appearance-none border rounded w-full py-2 px-3 
+                  text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  
+                  id="hairStylish" 
+                  onChange={(e) => setHairStylish(e.target.value)} >Hair Stylish
+
+                        <option value=""></option>
+                        <option value="Maical">Maical</option>
+                        <option value="Alan">Alan</option>
+                        <option value="Rebecca">Rebecca</option>
+                        
+                </select> 
+            </div>
           </div>
           
           <div className="mb-4">
@@ -80,13 +137,13 @@ const CreateResevation = () => {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
               id="resTimeStart" 
               type="text" 
-              onChange={(e) => setResTimeStart(e.target.value)}
+              onChange={(e) => {setResTimeStart(e.target.value);checkAppoinments()}}
               placeholder="resTimeStart"/>
           </div>
 
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="resTimeEnd">
-                Resevation ENd Time
+                Resevation End Time
             </label>
             <input 
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
@@ -94,8 +151,24 @@ const CreateResevation = () => {
               type="text" 
               onChange={(e) => setResTimeEnd(e.target.value)}
               placeholder="resTimeEnd"/>
-          </div>
           
+          </div>
+          <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="status">
+          Status
+            </label>
+            <select 
+              className="shadow appearance-none border rounded w-full py-2 px-3 
+              text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+              id="status" 
+              onChange={(e) => setstatus(e.target.value)} >Status
+                        
+                        <option value=""></option>
+                        <option value="Active">Active</option>
+                        <option value="Completed">Completed</option>            
+            </select> 
+          </div>
+
           <div className="flex items-center justify-between">
             <button 
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
@@ -109,6 +182,7 @@ const CreateResevation = () => {
         </form>
         </div>
         </div>
+        
       </div>
 )}
 

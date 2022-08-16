@@ -1,16 +1,72 @@
-import React from 'react';
+import React, { useState,useEffect } from 'react'
 import { ChartComponent, SeriesCollectionDirective, SeriesDirective, Inject, Legend, Category, Tooltip, ColumnSeries, DataLabel } from '@syncfusion/ej2-react-charts';
-
-import { barCustomSeries, barPrimaryXAxis, barPrimaryYAxis } from '../../data/dummy';
 import { ChartsHeader } from '../../components';
 import { useStateContext } from '../../contexts/ContextProvider';
+import { barPrimaryXAxis, barPrimaryYAxis} from '../../components'
 
 const Bar = () => {
   const { currentMode } = useStateContext();
 
+  const [tableData, setTableData] = useState([])
+  let maicalCount=0;
+  let alanCount =0;
+  let rebeccaCount=0;
+
+  useEffect(() => {
+    fetch(`http://localhost:3001/api/reservation/all`)
+      .then((data) => data.json())
+      .then((data) => setTableData(data))
+
+  }, [])
+
+  const hairS = tableData.map(a => a.hairStylish);
+  const Rdate = tableData.map(b => b.resDate);
+
+  
+  useEffect(() => {
+    for (let i = 0; i < hairS.length; i++) {
+        if(hairS[i]==="Maical"){
+            maicalCount++;           
+        }else if(hairS[i]==="Alan") {
+            alanCount++;
+        }else if(hairS[i]==="Rebecca"){
+            rebeccaCount++;
+        }
+    } 
+  }  
+  )
+
+  const barChartData = [
+    
+    [
+      { x: 'Maical', y: maicalCount },
+      { x: 'Alan', y: alanCount },
+      { x: 'Rebecca', y: rebeccaCount },
+    ],
+    
+  ];
+
+  const barCustomSeries = [
+    {
+      dataSource: barChartData[0],
+      xName: 'x',
+      yName: 'y',
+     
+      type: 'Column',
+      marker: {
+        dataLabel: {
+          visible: true,
+          position: 'Top',
+          font: { fontWeight: '600', color: '#ffffff' },
+        },
+      },
+    },
+    
+  ];
+
   return (
     <div className="m-4 md:m-10 mt-24 p-10 bg-white dark:bg-secondary-dark-bg rounded-3xl">
-      <ChartsHeader category="Bar" title="Olympic Medal Counts - RIO" />
+      <ChartsHeader category="Bar" title="total time duration of each stylist per day" />
       <div className=" w-full">
         <ChartComponent
           id="charts"

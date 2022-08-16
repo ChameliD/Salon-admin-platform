@@ -9,8 +9,12 @@ export { default as Footer } from './Footer';
 export { default as Notification } from './Notification';
 export { default as UserProfile } from './UserProfile';
 
-export { default as Stacked } from './Charts/Bar';
+//export { barCustomSeries as barCustomSeries } from './Charts/Bar';
+export { barPrimaryXAxis as barPrimaryXAxis } from './Charts/Bar';
+export { barPrimaryYAxis as barPrimaryYAxis } from './Charts/Bar';
 export { default as Pie } from './Charts/Pie';
 export { default as ChartsHeader } from './ChartsHeader';
 export { default as Header } from './Header';
+
+ 
 
